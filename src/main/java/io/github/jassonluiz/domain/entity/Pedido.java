@@ -36,8 +36,6 @@ public class Pedido {
 	private List<ItemPedido> itens;
 	
 	
-	
-	
 	public List<ItemPedido> getItens() {
 		return itens;
 	}

@@ -75,5 +75,10 @@ public class PedidoServiceImpl implements PedidoService{
 					return itemPedido;
 				}).collect(Collectors.toList());
 	}
+
+	@Override
+	public Optional<Pedido> obterPedidoCompleto(Integer id) {
+		return repository.findByIdFetchItens(id);
+	}
 	
 }

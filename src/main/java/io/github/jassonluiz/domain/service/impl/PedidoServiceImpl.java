@@ -13,6 +13,7 @@ import io.github.jassonluiz.domain.entity.Cliente;
 import io.github.jassonluiz.domain.entity.ItemPedido;
 import io.github.jassonluiz.domain.entity.Pedido;
 import io.github.jassonluiz.domain.entity.Produto;
+import io.github.jassonluiz.domain.enums.StatusPedido;
 import io.github.jassonluiz.domain.repository.ClientesRepository;
 import io.github.jassonluiz.domain.repository.ItensPedidosRepository;
 import io.github.jassonluiz.domain.repository.PedidoRepository;
@@ -44,6 +45,7 @@ public class PedidoServiceImpl implements PedidoService{
 		pedido.setTotal(dto.getTotal());
 		pedido.setDataPedido(LocalDate.now());
 		pedido.setCliente(cliente);
+		pedido.setStatus(StatusPedido.REALIZADO);
 		
 		List<ItemPedido> itensPedido = converterItens(pedido, dto.getItens());
 		repository.save(pedido);

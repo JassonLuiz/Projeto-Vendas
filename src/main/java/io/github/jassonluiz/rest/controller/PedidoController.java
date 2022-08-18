@@ -40,7 +40,7 @@ public class PedidoController {
 		return pedido.getId();
 	}
 	
-	@GetMapping
+	@GetMapping("{id}")
 	public InformacoesPedidoDTO getById(@PathVariable Integer id) {
 		return service
 					.obterPedidoCompleto(id)

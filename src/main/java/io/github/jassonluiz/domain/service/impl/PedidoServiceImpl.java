@@ -19,6 +19,7 @@ import io.github.jassonluiz.domain.repository.ItensPedidosRepository;
 import io.github.jassonluiz.domain.repository.PedidoRepository;
 import io.github.jassonluiz.domain.repository.ProdutosRepository;
 import io.github.jassonluiz.domain.service.PedidoService;
+import io.github.jassonluiz.exception.PedidoNaoEncontradoException;
 import io.github.jassonluiz.exception.RegraNegocioException;
 import io.github.jassonluiz.rest.dto.ItemPedidoDTO;
 import io.github.jassonluiz.rest.dto.PedidoDTO;
@@ -81,6 +82,17 @@ public class PedidoServiceImpl implements PedidoService{
 	@Override
 	public Optional<Pedido> obterPedidoCompleto(Integer id) {
 		return repository.findByIdFetchItens(id);
+	}
+
+	@Override
+	@Transactional
+	public void atualizaStatus(Integer id, StatusPedido statusPedido) {
+		repository
+				.findById(id)
+				.map(pedido -> {
+					pedido.setStatus(statusPedido);
+					return repository.save(pedido);
+				}).orElseThrow(() -> new PedidoNaoEncontradoException() );
 	}
 	
 }

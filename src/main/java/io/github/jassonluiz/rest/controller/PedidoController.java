@@ -7,8 +7,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,7 +20,9 @@ import org.springframework.util.CollectionUtils;
 
 import io.github.jassonluiz.domain.entity.ItemPedido;
 import io.github.jassonluiz.domain.entity.Pedido;
+import io.github.jassonluiz.domain.enums.StatusPedido;
 import io.github.jassonluiz.domain.service.PedidoService;
+import io.github.jassonluiz.rest.dto.AtualizacaoStatusPedidoDTO;
 import io.github.jassonluiz.rest.dto.InformacaoItemPedidoDTO;
 import io.github.jassonluiz.rest.dto.InformacoesPedidoDTO;
 import io.github.jassonluiz.rest.dto.PedidoDTO;
@@ -46,6 +50,13 @@ public class PedidoController {
 					.obterPedidoCompleto(id)
 					.map(p -> converter(p))
 					.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado!"));
+	}
+	
+	@PatchMapping("{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void updateStatus( @PathVariable Integer id, @RequestBody AtualizacaoStatusPedidoDTO dto) {
+		String novoStatus = dto.getNovoStatus();
+		service.atualizaStatus(id, StatusPedido.valueOf(novoStatus));
 	}
 	
 	public InformacoesPedidoDTO converter(Pedido pedido) {

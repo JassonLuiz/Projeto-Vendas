@@ -2,6 +2,8 @@ package io.github.jassonluiz.rest.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -31,7 +33,7 @@ public class ProdutoController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Produto salvar( @RequestBody Produto produto ) {
+	public Produto salvar( @RequestBody @Valid Produto produto ) {
 		return repository.save(produto);
 	}
 	
@@ -54,7 +56,7 @@ public class ProdutoController {
 	
 	@PutMapping("{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void atualizar( @PathVariable Integer id, @RequestBody Produto produtoAtualizado) {
+	public void atualizar( @PathVariable Integer id, @RequestBody @Valid Produto produtoAtualizado) {
 		repository.findById(id)
 					.map(produto -> {
 						produto.setDescricao(produtoAtualizado.getDescricao());
